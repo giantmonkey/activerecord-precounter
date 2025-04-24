@@ -48,6 +48,7 @@ load_schema.call
 
 require 'models/favorite'
 require 'models/tweet'
+require 'models/comment'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

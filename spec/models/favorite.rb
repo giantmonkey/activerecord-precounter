@@ -5,4 +5,6 @@ class Favorite < ActiveRecord::Base
              class_name: "Tweet"
 
   scope :active, -> { where(active: true) }
+
+  has_many :comments, as: :commentable
 end
