@@ -5,4 +5,5 @@ class Tweet < ActiveRecord::Base
   has_many :another_associated_favorites,
            primary_key: :another_id, foreign_key: :another_id,
            class_name: "Favorite", inverse_of: :another_associated_tweet
+  has_many :comments, as: :commentable
 end
