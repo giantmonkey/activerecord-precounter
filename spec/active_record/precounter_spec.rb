@@ -91,5 +91,27 @@ RSpec.describe ActiveRecord::Precounter do
         ).to eq(expected)
       end
     end
+
+    context "when using polymorphic associations" do
+      before do
+        @tweet = Tweet.create
+        @favorite = Favorite.create(tweet: @tweet)
+        2.times { Comment.create(commentable: @tweet) }
+        3.times { Comment.create(commentable: @favorite) }
+      end
+
+      after do
+        Comment.delete_all
+        Tweet.delete_all
+        Favorite.delete_all
+      end
+
+      it "precounts polymorphic association counts correctly" do
+        tweets = ActiveRecord::Precounter.new(Tweet.all).precount(:comments)
+        favorites = ActiveRecord::Precounter.new(Favorite.all).precount(:comments)
+        expect(tweets.first.comments_count).to eq(2)
+        expect(favorites.first.comments_count).to eq(3)
+      end
+    end
   end
 end
